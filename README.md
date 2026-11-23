@@ -215,7 +215,21 @@ powershell -File C:\fsd-mitm\stop_api_intercept.ps1   # 只撤 api-prd 拦截
 
 **为什么只能装到 `C:\fsd-mitm`**：脚本里约 24 处路径写死，换盘要逐处改。
 
-## C. 目录速查
+## C. macOS 使用说明
+
+macOS 下可直接运行核心 Python 服务（需 Python 3.10+）：
+
+```bash
+cd app
+./start_mac.sh setup              # 创建 app/venv 并安装 requirements-mac.txt（可加 --mirror 走清华源）
+./start_mac.sh start              # 启动 443 拦截 + DNS 53 + 看板 8900（443/53 需 sudo）
+./start_mac.sh status             # 查看各组件状态与本机 IP
+./start_mac.sh stop               # 停止所有组件
+```
+
+让车机和 Mac 连同一局域网（路由器或手机热点），并将车机 Wi-Fi 的 DNS 手动设为 `./start_mac.sh status` 输出的本机 IP 即可。
+
+## D. 目录速查
 
 ```
 fsd-mitm\
@@ -225,6 +239,8 @@ fsd-mitm\
 └─ app\
     ├─ start_hotspot.cmd 一键启动（热点模式，桌面快捷方式指向它）
     ├─ stop_hotspot.cmd  一键停止（热点模式）
+    ├─ start_mac.sh      macOS 一键部署 / 启停 / 状态脚本
+    ├─ requirements-mac.txt macOS 依赖清单
     ├─ start_all.cmd     一键启动（仅路由器模式）
     ├─ stop_fsd_all.ps1  一键全停（仅路由器模式）
     ├─ stop_api_intercept.ps1  只撤 api-prd 拦截
